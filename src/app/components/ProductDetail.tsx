@@ -40,7 +40,7 @@
 // export default ProductDetail;
 
 
-import { urlFor } from '@/sanity/lib/image';
+import { urlFor } from "../../../src/sanity/lib/image";
 import Image from 'next/image';
 
 interface Product {

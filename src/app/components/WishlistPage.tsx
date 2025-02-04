@@ -3,7 +3,7 @@
 import React from "react";
 import { useWishlist } from "../context/WishlistContext";
 import { useCart } from "../context/CartContext";
-import { urlFor } from '@/sanity/lib/image'; // If using Sanity, adjust based on your image handling
+import { urlFor } from "../../../src/sanity/lib/image"; // If using Sanity, adjust based on your image handling
 import Link from "next/link";
 import Image from "next/image";
 

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useRouter } from "next/navigation"; // Use next/navigation for newer Next.js routing
-import { client } from "@/sanity/lib/client"; // Import Sanity client
+import { client } from "../../sanity/lib/client"; // Import Sanity client
 
 const CheckoutPage = () => {
   const { cart, totalPrice, clearCart } = useCart(); // Get cart & total price from context

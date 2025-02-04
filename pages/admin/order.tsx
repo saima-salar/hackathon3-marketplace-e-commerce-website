@@ -1,9 +1,9 @@
 // pages/admin/orders.tsx
 
 import { useEffect, useState } from "react";
-import { client } from "@/sanity/lib/client"; // Make sure this is the correct import for your Sanity client
+import { client } from "../../src/sanity/lib/client"; // Make sure this is the correct import for your Sanity client
 import { useRouter } from "next/router";
-import { Order } from "@/types"; // Define a type for your orders
+import { Order } from "../../type"; // Define a type for your orders
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState<Order[]>([]);

@@ -7,7 +7,7 @@ import FooterScale from "./components/FooterScale";
 import TopPicks from "./components/TopPicks";
 import Heading from "./components/Heading";
 import NewArrival from "./components/NewArrival";
-import Blog from "@/app/components/Blog";
+import Blog from "../app/components/Blog";
 import Instagram from "./components/Instagram";
 
 const page = () => {
@@ -21,7 +21,7 @@ const page = () => {
       <NewArrival />
       <Blog />
       <Instagram />
-      <Footer />li
+      <Footer />
       <FooterScale />
     </div>
   );
