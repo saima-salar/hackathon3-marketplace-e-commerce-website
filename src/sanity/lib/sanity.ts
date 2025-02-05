@@ -2,15 +2,13 @@ import { createClient } from 'next-sanity';
 import createImageUrlBuilder from '@sanity/image-url';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
-// Sanity client setup
 export const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "h0ftj8xn",
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
+  projectId: "h0ftj8xn",
+  dataset:"production",
   apiVersion: "2025-01-01",
-  token: process.env.SANITY_API_TOKEN, // Use env variable for security
-  useCdn: process.env.NODE_ENV === 'production', // Enable CDN for production
+  token: "skka4strq8wrTAzFpj4cr4PGTL5QguJJu7UzXhZcDKAlQtEeoDnLRYGYsuFMUsCOKA8bJoI17Hh9gdl8Mf5vfVhaQdxgBMQWxxui3QDaEXWKGxockFe3EOz3l0yCA4oIkO69R9pya49xGrcDiRzpsFPmSNh5dMOMyPK4nzHz63uscDyM9EMt",  // This will be pulled from .env.local
+  useCdn: process.env.NODE_ENV === 'production', // Make sure CDN is enabled in production only
 });
-
 // Function to get a product by its ID
 export const getProductById = async (id: string) => {
   const query = `*[_type == "product" && _id == $id][0]`;

@@ -61,8 +61,8 @@ const CheckoutPage = () => {
       clearCart(); // Clears cart after successful order
       router.push("/order-success"); // Redirect to the success page
 
-    } catch (error) {
-      console.error("Checkout Error:", error);
+    } catch (error: any) {
+      console.error("Checkout Error:", error.message || error);
       alert("❌ Failed to place order. Please try again.");
     }
   };

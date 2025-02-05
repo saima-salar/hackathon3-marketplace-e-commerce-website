@@ -114,6 +114,8 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ products, onFilter }) => {
   // Dynamic category generation based on product data
   const categories = Array.from(new Set(products.map((product) => product.category)));
 
+
+
   const handleFilter = () => {
     let filteredProducts = products;
 

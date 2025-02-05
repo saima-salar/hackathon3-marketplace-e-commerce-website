@@ -5,6 +5,15 @@ import { client } from "../../src/sanity/lib/sanity"; // Make sure this is the c
 import { useRouter } from "next/router";
 import { Order } from "../../type"; // Define/ a type for your orders
 
+// ../../type.ts (or .d.ts)
+export interface Order {
+  id: string;
+  total: number;
+  items: string[];
+  // Add any other fields needed for the order type
+}
+
+
 const OrdersPage = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const router = useRouter();
