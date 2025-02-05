@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useRouter } from "next/navigation";
-import { urlFor } from "../../sanity/lib/image";
+import { urlFor } from "../../sanity/lib/sanity";
 import Image from "next/image";
 
 const ProductPage = ({ product }: { product: Product }) => {

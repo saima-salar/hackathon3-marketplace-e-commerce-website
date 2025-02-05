@@ -3,15 +3,24 @@
 import React from "react";
 import { useWishlist } from "../context/WishlistContext";
 import { useCart } from "../context/CartContext";
-import { urlFor } from "../../../src/sanity/lib/image"; // If using Sanity, adjust based on your image handling
+import { urlFor } from "../../../src/sanity/lib/sanity"; // If using Sanity, adjust based on your image handling
 import Link from "next/link";
 import Image from "next/image";
+
+interface ImageType {
+  asset: {
+    _ref: string;
+    _type: string;
+  };
+}
 
 interface WishlistItem {
   id: string;
   name: string;
   price: number;
-  // Add any other properties the item might have
+  image?: ImageType; // Define the image type more explicitly
+  selectedSize?: string;
+  selectedColor?: string;
 }
 
 const WishlistPage = () => {
@@ -25,7 +34,6 @@ const WishlistPage = () => {
   const handleAddToCart = (item: WishlistItem) => {
     addToCart(item); // Add item to cart
   };
-
 
   return (
     <div className="container mx-auto py-6">
@@ -45,19 +53,21 @@ const WishlistPage = () => {
               >
                 {/* Product Image */}
                 <div className="relative h-64 mb-4">
-                <Image
-             src={item.image ? urlFor(item.image).url() : '/path/to/fallback-image.jpg'}
-             width={500}
-              height={300}
-            alt={item.name}
-                 className="object-cover w-full h-full rounded-md"
-                         />
-     </div>
+                  <Image
+                    src={
+                      item.image ? urlFor(item.image).url() : '/path/to/fallback-image.jpg'
+                    }
+                    width={500}
+                    height={300}
+                    alt={item.name}
+                    className="object-cover w-full h-full rounded-md"
+                  />
+                </div>
 
                 {/* Product Details */}
                 <div className="text-center">
                   <h3 className="font-semibold text-xl text-gray-800">{item.name}</h3>
-                  <p className="text-gray-600 mt-2">{item.price}</p>
+                  <p className="text-gray-600 mt-2">${item.price.toFixed(2)}</p> {/* Price formatted to 2 decimal places */}
 
                   {/* Optional: If you have size/color options */}
                   <div className="text-sm mt-2">
@@ -71,7 +81,8 @@ const WishlistPage = () => {
                       onClick={() => handleAddToCart(item)}
                       className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200"
                     >
-                        <Link href="/cartpage"> Add to Cart</Link>
+                      {/* Redirect to cart page after adding to cart */}
+                      <Link href="/cartpage">Add to Cart</Link>
                     </button>
                     <button
                       onClick={() => handleRemoveFromWishlist(item.id)}

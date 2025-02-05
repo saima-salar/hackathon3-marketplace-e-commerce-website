@@ -1,17 +1,28 @@
+// types/type.d.ts
 
-  interface Product {
-    id: string;
-    name: string;
-    image: any; // Make sure this matches how images are fetched
-    price: number;
-    category: string;
-    description: string;
-    stockLevel: number;
-    discountPercentage: number;
-    isFeaturedProduct: boolean;
-  }
-  
+export interface Product {
+  _id: string;
+  name: string;
+  slug: string;
+  description: string;
+  price: number;
+  image: string;
+  category: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 
 
 
   // APIToken : "skka4strq8wrTAzFpj4cr4PGTL5QguJJu7UzXhZcDKAlQtEeoDnLRYGYsuFMUsCOKA8bJoI17Hh9gdl8Mf5vfVhaQdxgBMQWxxui3QDaEXWKGxockFe3EOz3l0yCA4oIkO69R9pya49xGrcDiRzpsFPmSNh5dMOMyPK4nzHz63uscDyM9EMt"
+
+
+  // *[_type == "order"] | order(orderDate desc) {
+  //   _id,
+  //   fullName,
+  //   email,
+  //   totalPrice,
+  //   items[]->{name, price, quantity},
+  //   orderDate
+  // }

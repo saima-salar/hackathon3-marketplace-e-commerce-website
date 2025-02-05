@@ -99,12 +99,7 @@
 "use client";
 
 import React, { useState } from "react";
-
-interface Product {
-  name: string;
-  category: string;
-  price: number;
-}
+import { Product } from "../../../type"; // Ensure both files use the same import
 
 interface SearchFilterProps {
   products: Product[];
@@ -144,6 +139,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ products, onFilter }) => {
       );
     }
 
+    // Pass filtered products to parent component
     onFilter(filteredProducts);
   };
 
@@ -177,7 +173,11 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ products, onFilter }) => {
         <select
           onChange={(e) => {
             const [min, max] = e.target.value.split("-").map(Number);
-            setPriceRange(!isNaN(min) && !isNaN(max) ? [min, max] : null);
+            if (!isNaN(min) && !isNaN(max)) {
+              setPriceRange([min, max]);
+            } else {
+              setPriceRange(null);
+            }
           }}
           className="p-2 border rounded-md"
         >

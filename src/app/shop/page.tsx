@@ -163,7 +163,7 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import Footer from "../components/Footer";
 import FooterScale from "../components/FooterScale";
-import { client } from "../../sanity/lib/client";
+import { client } from "../../sanity/lib/sanity";
 import ProductListing from "../components/ProductListing";
 import SearchFilter from "../components/SearchFilter";
 import Pagination from "../components/Pagination";

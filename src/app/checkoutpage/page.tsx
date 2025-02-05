@@ -3,12 +3,13 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useRouter } from "next/navigation"; // Use next/navigation for newer Next.js routing
-import { client } from "../../sanity/lib/client"; // Import Sanity client
+import { client } from "../../sanity/lib/sanity"; // Import Sanity client
 
 const CheckoutPage = () => {
   const { cart, totalPrice, clearCart } = useCart(); // Get cart & total price from context
   const router = useRouter(); // useRouter hook for navigation
 
+  // Local state for the form data
   const [form, setForm] = useState({
     fullName: "",
     address: "",
@@ -17,11 +18,14 @@ const CheckoutPage = () => {
     email: "",
   });
 
+  // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // Handle checkout process
   const handleCheckout = async () => {
+    // Check if all fields are filled out
     if (!form.fullName || !form.address || !form.city || !form.country || !form.email) {
       alert("⚠️ Please fill in all fields before proceeding.");
       return;
@@ -37,7 +41,7 @@ const CheckoutPage = () => {
         city: form.city,
         country: form.country,
         items: cart.map((item) => ({
-          _type: "object", 
+          _type: "object",
           productId: item.id,
           name: item.name,
           quantity: item.quantity,
@@ -127,8 +131,8 @@ const CheckoutPage = () => {
       </div>
 
       {/* Checkout Button */}
-      <button 
-        onClick={handleCheckout} 
+      <button
+        onClick={handleCheckout}
         className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700"
       >
         Place Order
@@ -138,52 +142,3 @@ const CheckoutPage = () => {
 };
 
 export default CheckoutPage;
-
-// "use client";
-
-// import { useCart } from "../context/CartContext";
-// import { useRouter } from "next/navigation";
-
-// const CheckoutPage = () => {
-//   const { cart, totalPrice, clearCart } = useCart();
-//   const router = useRouter();
-
-//   const handleCheckout = () => {
-//     if (cart.length > 0) {
-//       // Proceed with checkout logic (e.g., API calls, payment processing)
-//       alert("Checkout successful!");
-
-//       // Clear the cart after successful checkout
-//       clearCart(); // Clears all items in the cart
-
-//       // Redirect to the home page after clearing the cart
-//       router.push("/"); // Navigate to the home page ("/")
-//     } else {
-//       alert("Your cart is empty. Please add items to your cart.");
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gray-100 p-8">
-//       <h1 className="text-3xl font-bold mb-6">Checkout Page</h1>
-
-//       {cart.length === 0 ? (
-//         <p>Your cart is empty.</p>
-//       ) : (
-//         <div>
-//           <h2 className="text-xl font-bold">Total: ${totalPrice.toFixed(2)}</h2>
-
-//           <button
-//             onClick={handleCheckout}
-//             className="w-full bg-green-500 text-white py-3 rounded-lg mt-4 hover:bg-green-600"
-//           >
-//             Complete Checkout
-//           </button>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default CheckoutPage;
-

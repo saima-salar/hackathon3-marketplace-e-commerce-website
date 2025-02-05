@@ -53,6 +53,27 @@ const productSchema = {
       title: 'Category',
       type: 'string',
     },
+    {
+      name: 'sizes',
+      title: 'Sizes',
+      type: 'array',
+      of: [
+        {
+          type: 'string',
+        },
+      ],
+    },
+    {
+      name: 'colors',
+      title: 'Colors',
+      type: 'array',
+      of: [
+        {
+          type: 'string',
+        },
+      ],
+    },
   ],
 };
+
 export default productSchema;
