@@ -1,42 +1,12 @@
-// {
-//   "compilerOptions": {
-//     "target": "ES2017",
-//     "lib": ["dom", "dom.iterable", "esnext"], 
-//     "allowJs": true,
-//     "skipLibCheck": true,
-//     "strict": true,
-//     "noEmit": true,
-//     "esModuleInterop": true,
-//     "module": "esnext",
-//     "moduleResolution": "bundler",
-//     "resolveJsonModule": true,
-//     "isolatedModules": true,
-//     "jsx": "preserve",
-//     "incremental": true,
-//     "baseUrl": "src", 
-//     "paths": {
-//       "@/*": ["*"] 
-//     },
-//     "plugins": [
-//       {
-//         "name": "next"
-//       }
-//     ]
-//   },
-//   "include": [
-//     "next-env.d.ts",
-//     "**/*.ts",
-//     "**/*.tsx",
-//     ".next/types/**/*.ts"
-//   ],
-//   "exclude": [
-//     "node_modules"
-//   ]
-// }
 {
   "compilerOptions": {
+    "baseUrl": ".", // Set the root directory
     "target": "ESNext", // Use ESNext for the latest ECMAScript features
-    "lib": ["dom", "dom.iterable", "esnext"], // Include necessary libraries
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ], // Include necessary libraries
     "allowJs": true, // Allow JavaScript files to be compiled
     "skipLibCheck": true, // Skip type checking of declaration files
     "strict": true, // Enable all strict type-checking options
@@ -49,13 +19,17 @@
     "jsx": "preserve", // Preserve JSX syntax for Next.js
     "incremental": true, // Enable incremental compilation
     "forceConsistentCasingInFileNames": true, // Ensure consistent file name casing
-    "baseUrl": ".", // Base directory for resolving non-relative module names
     "paths": {
-      "@/*": ["./src/*"] // Map `@/` to the `src` directory
-    },
+      "@/*": [
+        "./src/*"
+      ],
+      "types/*": [
+        "./types/*"
+      ]
+    }, // Ensure the `types` directory is correctly resolved
     "plugins": [
       {
-        "name": "next" // Enable Next.js TypeScript plugin
+        "name": "next"
       }
     ]
   },
@@ -63,7 +37,10 @@
     "next-env.d.ts", // Include Next.js type definitions
     "**/*.ts", // Include all TypeScript files
     "**/*.tsx", // Include all TypeScript JSX files
-    ".next/types/**/*.ts" // Include Next.js generated types
+    "types/**/*.ts", // Make sure TypeScript includes the types directory
+    "pages/**/*.tsx" // Also include your pages
+    ,
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules" // Exclude the node_modules directory

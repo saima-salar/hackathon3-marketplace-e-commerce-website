@@ -1,20 +1,19 @@
-// src/components/CartButton.tsx (Client Component)
-'use client';
+// src/app/components/CartButton.tsx
+"use client"
+// src/app/components/CartButton.tsx
 
 import { useCart } from "../context/CartContext";
+import { CartItem } from "../../../types/type"; // Import CartItem instead of Product
 
-const CartButton = ({ product }: { product: Product }) => {
+const CartButton = ({ product }: { product: CartItem }) => {
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
-    addToCart(product); // Now using addToCart to add the product to the cart
+    addToCart(product);  // product should now have the additional properties like quantity, selectedSize, etc.
   };
 
   return (
-    <button 
-      onClick={handleAddToCart}
-      className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-    >
+    <button onClick={handleAddToCart}>
       Add to Cart
     </button>
   );
