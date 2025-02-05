@@ -2,10 +2,10 @@
 // Before using it, import and render "<SanityLive />" in your layout, see
 // https://github.com/sanity-io/next-sanity#live-content-api for more information.
 import { defineLive } from "next-sanity";
-import { Client } from './client'
+import { client } from '../lib/sanity'
 
 export const { sanityFetch, SanityLive } = defineLive({ 
-  client: Client.withConfig({ 
+  client: client.withConfig({ 
     // Live content is currently only available on the experimental API
     // https://www.sanity.io/docs/api-versioning
     apiVersion: 'vX' 

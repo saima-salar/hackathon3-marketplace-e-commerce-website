@@ -35,37 +35,37 @@
 // }
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "strict": true,
-    "jsx": "preserve",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "noEmit": true,
-    "incremental": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
+    "target": "ESNext", // Use ESNext for the latest ECMAScript features
+    "lib": ["dom", "dom.iterable", "esnext"], // Include necessary libraries
+    "allowJs": true, // Allow JavaScript files to be compiled
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "strict": true, // Enable all strict type-checking options
+    "noEmit": true, // Do not emit JavaScript files (Next.js handles this)
+    "esModuleInterop": true, // Enable compatibility with ES modules
+    "module": "ESNext", // Use ESNext modules
+    "moduleResolution": "Node", // Use Node.js-style module resolution
+    "resolveJsonModule": true, // Allow importing JSON modules
+    "isolatedModules": true, // Ensure each file can be transpiled independently
+    "jsx": "preserve", // Preserve JSX syntax for Next.js
+    "incremental": true, // Enable incremental compilation
+    "forceConsistentCasingInFileNames": true, // Ensure consistent file name casing
+    "baseUrl": ".", // Base directory for resolving non-relative module names
+    "paths": {
+      "@/*": ["./src/*"] // Map `@/` to the `src` directory
+    },
     "plugins": [
       {
-        "name": "next"
+        "name": "next" // Enable Next.js TypeScript plugin
       }
     ]
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "next-env.d.ts",
-    ".next/types/**/*.ts"
+    "next-env.d.ts", // Include Next.js type definitions
+    "**/*.ts", // Include all TypeScript files
+    "**/*.tsx", // Include all TypeScript JSX files
+    ".next/types/**/*.ts" // Include Next.js generated types
   ],
   "exclude": [
-    "node_modules"
+    "node_modules" // Exclude the node_modules directory
   ]
 }

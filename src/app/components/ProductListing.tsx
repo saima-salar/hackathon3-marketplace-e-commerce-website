@@ -47,7 +47,7 @@
 import React, { useState } from 'react';
 import { useWishlist } from '../context/WishlistContext'; // Import Wishlist context
 import Image from 'next/image';
-import { urlFor } from "../../../src/sanity/lib/sanity";
+import { urlFor } from '../../sanity/lib/sanity';
 import Link from 'next/link';
 import { FaHeart } from 'react-icons/fa';
 

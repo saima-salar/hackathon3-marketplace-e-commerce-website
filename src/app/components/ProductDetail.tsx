@@ -75,21 +75,66 @@
 
 // export default ProductDetail;
 
-import { urlFor } from '../../sanity/lib/sanity';
+// import { urlFor } from '../../sanity/lib/sanity';
 
-const ProductDetail = ({ product }: { product: any }) => {
-  const imageUrl = product.image ? urlFor(product.image).url() : '/placeholder-image.jpg';
+
+// const ProductDetail = ({ product }: { product: any}) => {
+//   const imageUrl = product.image ? urlFor(product.image).url() : '/placeholder-image.jpg';
+
+//   return (
+//     <div>
+//       <img
+//         src={imageUrl}
+//         alt={product.name}
+//         className="w-full h-64 object-cover rounded-t-lg"
+//       />
+//       <h1 className="text-2xl font-bold">{product.name}</h1>
+//       <p>{product.description}</p>
+//       <p>${product.price}</p>
+//     </div>
+//   );
+// };
+
+// export default ProductDetail;
+
+import { urlFor } from '../../sanity/lib/sanity';
+import Image from 'next/image';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+
+interface Product {
+  Image?: SanityImageSource;
+  name: string;
+  description: string;
+  price: number;
+}
+
+interface ProductDetailProps {
+  product: Product;
+}
+
+const ProductDetail = ({ product }: ProductDetailProps) => {
+  // Fallback image if the product image is missing or URL is undefined
+  const imageUrl = product.Image && urlFor(product.Image)?.url() 
+  ? urlFor(product.Image).url() 
+  : '/placeholder-image.jpg';
 
   return (
-    <div>
-      <img
-        src={imageUrl}
-        alt={product.name}
-        className="w-full h-64 object-cover rounded-t-lg"
-      />
-      <h1 className="text-2xl font-bold">{product.name}</h1>
-      <p>{product.description}</p>
-      <p>${product.price}</p>
+    <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+      <div className="relative w-full h-64">
+        <Image
+          src={imageUrl}
+          alt={product.name || 'Product Image'}
+          layout="fill"
+          objectFit="cover"
+          className="rounded-t-lg"
+          priority
+        />
+      </div>
+      <div className="p-4">
+        <h1 className="text-2xl font-bold mt-2">{product.name}</h1>
+        <p className="text-gray-600 mt-1">{product.description}</p>
+        <p className="text-lg font-semibold mt-2 text-blue-600">${product.price.toFixed(2)}</p>
+      </div>
     </div>
   );
 };

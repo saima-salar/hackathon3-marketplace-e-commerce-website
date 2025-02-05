@@ -4,11 +4,11 @@ import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 // Sanity client setup
 export const client = createClient({
-  projectId: "h0ftj8xn",
-  dataset: "production",
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "h0ftj8xn",
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   apiVersion: "2025-01-01",
-  token: process.env.NEXT_PUBLIC_SANITY_TOKEN,  // Use environment variable for security
-  useCdn: false,
+  token: process.env.SANITY_API_TOKEN, // Use env variable for security
+  useCdn: process.env.NODE_ENV === 'production', // Enable CDN for production
 });
 
 // Function to get a product by its ID
@@ -36,22 +36,8 @@ export const fetchProducts = async () => {
   }
 };
 
-// Generic data fetching function
-export const fetchData = async (query: string, params: Record<string, any> = {}) => {
-  try {
-    const data = await client.fetch(query, params);
-    return data;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    return null;
-  }
-};
-
 // Sanity image URL builder setup
-const builder = createImageUrlBuilder({
-  projectId: "h0ftj8xn",
-  dataset: "production",
-});
+const builder = createImageUrlBuilder(client);
 
 export const urlFor = (source: SanityImageSource) => {
   return builder.image(source);
