@@ -15,7 +15,7 @@ interface Order {
   address: string;
   city: string;
   country: string;
-  items: Item[]; // Array of items
+  items: Item[];
   totalPrice: number;
   orderDate: string;
 }
@@ -48,7 +48,6 @@ const OrdersList = () => {
         setOrders(data);
         setLoading(false);
       } catch (err: unknown) {
-        // Handle error properly
         if (err instanceof Error) {
           setError("Failed to fetch orders: " + err.message);
         } else {
@@ -71,7 +70,7 @@ const OrdersList = () => {
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <div aria-live="polite" className="bg-red-100 text-red-800 p-4 rounded mb-4">{error}</div>;
   }
 
   return (
@@ -79,7 +78,7 @@ const OrdersList = () => {
       <h1 className="text-3xl font-bold text-center mb-6">Orders</h1>
       <ul>
         {orders.map((order) => (
-          <li key={order._id} className="border p-4 mb-4 rounded-lg shadow-md">
+          <li key={order._id} className="border p-4 mb-4 rounded-lg shadow-md hover:shadow-lg transition-all">
             <h2 className="text-xl font-semibold">{order.fullName}</h2>
             <p className="text-gray-600">{order.email}</p>
             <p className="text-lg font-medium text-gray-900">Total: ${order.totalPrice.toFixed(2)}</p>

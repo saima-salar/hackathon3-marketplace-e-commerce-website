@@ -1,96 +1,73 @@
-"use client";
+"use client";  // Ensures this component runs on the client side
 
-import { useState } from "react";
-import { useCart } from "../context/CartContext";
-import { useRouter } from "next/navigation";
-import { urlFor } from "../../sanity/lib/sanity";
-import Image from "next/image";
+import { useCart } from '../context/CartContext';
+import { Product } from '../../../types/type';
+import imageUrlBuilder from '@sanity/image-url';
+import { client } from '../../sanity/lib/sanity';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
+// Setup Sanity Image URL Builder
+const builder = imageUrlBuilder(client);
+const urlFor = (source: any) => (source ? builder.image(source).url() : "");
+
+// Product Page Component
 const ProductPage = ({ product }: { product: Product }) => {
   const { addToCart } = useCart();
   const router = useRouter();
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+
+  // Generate Image URL
+  const imageUrl = product.image ? urlFor(product.image) : "";
 
   const handleAddToCart = () => {
-    if (!selectedSize || !selectedColor) {
-      alert("⚠️ Please select a size and color before adding to cart.");
-      return;
-    }
-
-    addToCart({ ...product, selectedSize, selectedColor });
-    alert(`🛒 ${product.name} added to cart!`);
-    router.push("/cartpage"); // ✅ Redirect to Cart Page after adding
+    const cartItem = {
+      ...product,
+      quantity: 1, // Set quantity to 1
+      image: imageUrl, // Store correct image URL
+    };
+    addToCart(cartItem);
+    router.push('/cartpage'); // Redirect to cart page
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-gray-50 to-gray-100">
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Product Image */}
-          <div className="flex justify-center">
+    <div className="max-w-6xl mx-auto p-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Product Image */}
+        <div className="flex justify-center">
+          {imageUrl ? (
             <Image
-              src={urlFor(product.image).url()}
+              src={imageUrl}
               alt={product.name}
+              className="w-full md:w-1/2 h-auto object-cover mb-4 md:mb-0"
               width={500}
               height={500}
-              className="object-contain rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
             />
-          </div>
+          ) : (
+            <p className="text-red-500">Image not available</p>
+          )}
+        </div>
 
-          {/* Product Details */}
-          <div className="flex flex-col justify-between">
-            <div>
-              <h1 className="text-4xl font-extrabold text-gray-800">{product.name}</h1>
-              <p className="mt-4 text-gray-600">{product.description}</p>
-              <p className="text-3xl mt-6 font-bold text-gray-900">${product.price}</p>
-            </div>
+        {/* Product Details */}
+        <div className="flex flex-col justify-between space-y-4">
+          <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
+          <p className="text-lg text-gray-700">{product.description}</p>
+          <p className="text-2xl font-semibold text-gray-900">${product.price}</p>
 
-            {/* Size Options */}
-            <div className="mt-8">
-              <span className="font-semibold text-lg text-gray-800">Select Size:</span>
-              <div className="flex space-x-3 mt-3">
-                {["L", "M", "S"].map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`px-5 py-2 border ${
-                      selectedSize === size ? "bg-blue-500 text-white" : "border-gray-300 text-gray-800"
-                    } rounded-lg hover:bg-gray-200`}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </div>
+          {/* Add to Cart Button */}
+          <button
+            onClick={handleAddToCart}
+            className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            Add to Cart
+          </button>
 
-            {/* Color Options */}
-            <div className="mt-6">
-              <span className="font-semibold text-lg text-gray-800">Choose Color:</span>
-              <div className="flex space-x-4 mt-3">
-                {["#000000", "#092e5a", "#873e23"].map((color) => (
-                  <div
-                    key={color}
-                    onClick={() => setSelectedColor(color)}
-                    className={`w-8 h-8 rounded-full border border-gray-300 cursor-pointer ${
-                      selectedColor === color ? "ring-2 ring-blue-500" : ""
-                    }`}
-                    style={{ backgroundColor: color }}
-                  ></div>
-                ))}
-              </div>
-            </div>
-
-            {/* Add to Cart */}
-            <div className="mt-8">
-              <button
-                onClick={handleAddToCart}
-                className="w-full px-6 py-3 text-lg font-semibold text-white bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700"
-              >
-                Add to Cart
-              </button>
-            </div>
-          </div>
+          {/* Back to Products Button */}
+          <Link href="/shop">
+            <button className="mt-2 px-6 py-2 text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-100">
+              Back to Products
+            </button>
+          </Link>
         </div>
       </div>
     </div>

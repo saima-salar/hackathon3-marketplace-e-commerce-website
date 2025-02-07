@@ -1,49 +1,55 @@
-// types/type.d.ts
 
-// types/type.ts
+interface CartItem {
+  description: ReactNode; // ✅ Use ReactNode instead of ReactI18NextChildren
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  imagePath: string;
+  image?: string;  // Make the 'image' field optional
+}
 
-export interface CartItem {
-    id: string;               // Add id property here
-    product: Product;
-    quantity: number;
-    selectedSize?: string;
-    selectedColor?: string;
-  }
-  
-  export interface Product {
-    _id: string;
-    name: string;
-    slug: string;
-    description: string;
-    price: number;
-    image: string;
-    category: string;
-    createdAt: string;
-    updatedAt: string;
-  }
-  
-// types/type.ts
+// Define a Product structure that matches the API
+export interface Product {
+  id: string;
+  name: string;
+  imagePath: { asset: { _ref: string } }; // ✅ Fixing type
+  price: string;
+  description: string;
+  discountPercentage: number;
+  isFeaturedProduct: boolean;
+  stockLevel: number;
+  category: string;
+  image?:string;
+}
 
+
+// Define a structure for Wishlist Items, matching API data
+export interface WishlistItem {
+  id: string;
+  name: string;
+  imagePath: string;
+  price: number;
+  description: string;
+  discountPercentage: number;
+  isFeaturedProduct: boolean;
+  stockLevel: number;
+  category: string;
+}
+
+// Define Order Item structure for each item in an order
+export interface OrderItem {
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+// Define Order structure for storing customer orders
 export interface Order {
-    id: string;
-    fullName: string;
-    email: string;
-    totalPrice: number;
-    items: { name: string; price: number; quantity: number }[];  // Add the items array
-    orderDate: string;
-  }
-  
-  
-  
-  
-    // APIToken : "skka4strq8wrTAzFpj4cr4PGTL5QguJJu7UzXhZcDKAlQtEeoDnLRYGYsuFMUsCOKA8bJoI17Hh9gdl8Mf5vfVhaQdxgBMQWxxui3QDaEXWKGxockFe3EOz3l0yCA4oIkO69R9pya49xGrcDiRzpsFPmSNh5dMOMyPK4nzHz63uscDyM9EMt"
-  
-  
-    // *[_type == "order"] | order(orderDate desc) {
-    //   _id,
-    //   fullName,
-    //   email,
-    //   totalPrice,
-    //   items[]->{name, price, quantity},
-    //   orderDate
-    // }
+  id: string;
+  fullName: string;
+  email: string;
+  totalPrice: number;
+  items: OrderItem[];
+  orderDate: string;
+}

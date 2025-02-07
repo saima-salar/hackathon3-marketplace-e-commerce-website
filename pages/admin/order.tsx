@@ -1,9 +1,9 @@
-// pages/admin/orders.tsx
+"use client";
 
 import { useEffect, useState } from "react";
 import { client } from "../../src/sanity/lib/sanity"; // Correct import for Sanity client
 import { useRouter } from "next/router";
-import { Order } from "../../types/type";  // Import from types/type.ts
+import { Order, OrderItem } from "../../types/type"; // Import types from types/type.ts
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState<Order[]>([]); // Use the imported Order type
@@ -50,7 +50,7 @@ const OrdersPage = () => {
               <div className="mt-4">
                 <h3 className="font-semibold">Items:</h3>
                 <ul>
-                  {order.items.map((item :any, index :any) => (
+                  {order.items.map((item: OrderItem, index: number) => (
                     <li key={index}>
                       {item.name} - ${item.price} x {item.quantity}
                     </li>

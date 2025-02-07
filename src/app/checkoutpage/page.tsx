@@ -1,8 +1,8 @@
 "use client"; // Ensure this is a client-side component
 
 import { useState } from "react";
-import { useCart } from "../context/CartContext";
-import { useRouter } from "next/navigation"; // Use next/navigation for newer Next.js routing
+import { useCart } from "../context/CartContext"; // Get cart & total price from context
+import { useRouter } from "next/navigation"; // Correct import from next/navigation for app directory
 import { client } from "../../sanity/lib/sanity"; // Import Sanity client
 
 const CheckoutPage = () => {
@@ -32,6 +32,9 @@ const CheckoutPage = () => {
     }
 
     try {
+      // Log form data to check if it's correct
+      console.log("Form Data:", form);
+
       // Prepare order data for Sanity
       const orderData = {
         _type: "order",
@@ -46,24 +49,32 @@ const CheckoutPage = () => {
           name: item.name,
           quantity: item.quantity,
           price: item.price,
-          selectedSize: item.selectedSize,
-          selectedColor: item.selectedColor,
         })),
         totalPrice,
         orderDate: new Date().toISOString(),
       };
 
+      // Log the order data before sending to Sanity
+      console.log("Order Data to be sent:", orderData);
+
       // Save order to Sanity
-      await client.create(orderData);
+      const orderResponse = await client.create(orderData);
 
-      // Success handling
-      alert("✅ Order placed successfully!");
-      clearCart(); // Clears cart after successful order
-      router.push("/order-success"); // Redirect to the success page
+      // Log the response from Sanity
+      console.log("Order response from Sanity:", orderResponse);
 
+      if (orderResponse) {
+        console.log("Order successfully created:", orderResponse);
+        alert("✅ Order placed successfully!");
+        clearCart(); // Clears cart after successful order
+        console.log("Order placed successfully. Redirecting to /order-success");
+        router.push("/order-success"); // Redirect to the success page after successful order creation
+      } else {
+        throw new Error("Failed to create order, no response received.");
+      }
     } catch (error: any) {
       console.error("Checkout Error:", error.message || error);
-      alert("❌ Failed to place order. Please try again.");
+      alert(`❌ Failed to place order: ${error.message || error}`);
     }
   };
 

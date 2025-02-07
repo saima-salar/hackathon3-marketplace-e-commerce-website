@@ -99,7 +99,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Product } from "../../../type"; // Ensure both files use the same import
+import { Product } from "../../../types/type"; // Ensure both files use the same import
 
 interface SearchFilterProps {
   products: Product[];

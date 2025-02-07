@@ -40,7 +40,9 @@
     "types/**/*.ts", // Make sure TypeScript includes the types directory
     "pages/**/*.tsx" // Also include your pages
     ,
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src",
+    "types",
   ],
   "exclude": [
     "node_modules" // Exclude the node_modules directory
