@@ -1,5 +1,4 @@
-"use client"; // Ensure this is a client-side component
-
+"use client";
 import { useState } from "react";
 import { useCart } from "../context/CartContext"; // Get cart & total price from context
 import { useRouter } from "next/navigation"; // Correct import from next/navigation for app directory

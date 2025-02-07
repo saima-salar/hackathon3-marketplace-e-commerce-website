@@ -1,6 +1,5 @@
-"use client"
+"use client";
 import { createContext, useContext, useState, useEffect } from "react";
-
 import { ReactNode } from "react"; // ✅ Import ReactNode
 
 interface CartItem {
@@ -12,13 +11,13 @@ interface CartItem {
   image: string;
 }
 
-
 // Cart context type
 interface CartContextType {
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
   removeFromCart: (id: string) => void;
   totalPrice: number;
+  clearCart: () => void; // Add clearCart here
 }
 
 // Creating the context
@@ -74,11 +73,17 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
+  // Function to clear the cart
+  const clearCart = () => {
+    setCart([]); // Clears the cart
+    localStorage.removeItem("cart"); // Optionally remove cart from localStorage
+  };
+
   // Calculate total price
   const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, totalPrice }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, totalPrice, clearCart }}>
       {children}
     </CartContext.Provider>
   );

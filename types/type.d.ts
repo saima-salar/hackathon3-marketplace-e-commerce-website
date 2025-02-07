@@ -6,7 +6,7 @@ interface CartItem {
   price: number;
   quantity: number;
   imagePath: string;
-  image?: string;  // Make the 'image' field optional
+  image?: string | undefined;  // Make the 'image' field optional
 }
 
 // Define a Product structure that matches the API
@@ -35,6 +35,10 @@ export interface WishlistItem {
   isFeaturedProduct: boolean;
   stockLevel: number;
   category: string;
+ image?: string;
+  
+    
+  
 }
 
 // Define Order Item structure for each item in an order

@@ -13,16 +13,20 @@ const builder = imageUrlBuilder(client);
 const urlFor = (source: string) => builder.image(source).url();
 
 // ✅ Wishlist Item Interface
-interface WishlistItem {
+export interface WishlistItem {
   id: string;
   name: string;
+  imagePath: string;
   price: number;
   description: string;
-  image: string; // API provides `image`
-  discountPercentage?: number;
-  isFeaturedProduct?: boolean;
-  stockLevel?: number;
+  discountPercentage: number;
+  isFeaturedProduct: boolean;
+  stockLevel: number;
   category: string;
+ image?: string;
+
+    
+  
 }
 
 // ✅ Cart Item Interface
