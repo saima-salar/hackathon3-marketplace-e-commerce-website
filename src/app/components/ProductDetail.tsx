@@ -5,7 +5,7 @@ const ProductDetail = ({ product }: { product: Product }) => {
   return (
     <div className="flex flex-col md:flex-row p-4">
       <img
-        src={urlFor(product.image).url()}  // Make sure urlFor is correctly defined
+        src={product.image ? urlFor(product.image).url() : ''}  // Make sure urlFor is correctly defined
         alt={product.name}
         className="w-full md:w-1/2 h-auto object-cover mb-4 md:mb-0"
       />

@@ -1,3 +1,5 @@
+/*eslint-disable*/
+
 'use client'; // Required for React hooks in Next.js
 
 import React, { useState } from 'react';
@@ -11,6 +13,10 @@ interface Product {
   id: string;
   name: string;
   price: number;
+  imagePath: string;
+  discountPercentage: number;
+  isFeaturedProduct: boolean;
+  stockLevel: number;
   description: string;
   category: string;
   image: { asset: { _ref: string } }; // image should have asset with _ref

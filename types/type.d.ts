@@ -1,12 +1,12 @@
-
-interface CartItem {
+import { ReactNode } from 'react';
+export interface CartItem {
   description: ReactNode; // ✅ Use ReactNode instead of ReactI18NextChildren
   id: string;
   name: string;
   price: number;
-  quantity: number;
+  quantity?: number; // Optional property
   imagePath: string;
-  image?: string | undefined;  // Make the 'image' field optional
+  image?: string;  // Make the 'image' field optional
 }
 
 // Define a Product structure that matches the API
@@ -14,7 +14,7 @@ export interface Product {
   id: string;
   name: string;
   imagePath: { asset: { _ref: string } }; // ✅ Fixing type
-  price: string;
+  price: number;
   description: string;
   discountPercentage: number;
   isFeaturedProduct: boolean;
@@ -28,16 +28,13 @@ export interface Product {
 export interface WishlistItem {
   id: string;
   name: string;
-  imagePath: string;
   price: number;
-  description: string;
+  imagePath: string;
+  image?: string;
   discountPercentage: number;
   isFeaturedProduct: boolean;
   stockLevel: number;
-  category: string;
- image?: string;
-  
-    
+
   
 }
 
@@ -57,3 +54,20 @@ export interface Order {
   items: OrderItem[];
   orderDate: string;
 }
+
+export interface CartItem extends Product {
+
+  quantity: number;
+
+  image: string;
+
+  imagePath: { asset: { _ref: string; } };
+
+}
+
+
+
+
+
+
+// skUIjmmwATXUZBCxR0Lon3cGq38DB5SbAjvGZHfaacUgMdbDFIe6kpkvlcXLAv6Cu8r5wlUhpK38KaJns2HKhw0j17mUCoSwfXnLuuhqcNcv4bR3q8mD3M07RkmF6eVDf7uu7lGotnUrDWC6MITFYZbaPeIzq6UueAnQcQ51B3ZXWL3AtujX

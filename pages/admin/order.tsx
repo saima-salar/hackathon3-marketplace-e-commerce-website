@@ -1,26 +1,26 @@
-"use client";
+// pages/admin/orders.tsx
 
 import { useEffect, useState } from "react";
-import { client } from "../../src/sanity/lib/sanity"; // Correct import for Sanity client
+import { client } from "@/sanity/lib/sanity"; // Make sure this is the correct import for your Sanity client
 import { useRouter } from "next/router";
-import { Order, OrderItem } from "../../types/type"; // Import types from types/type.ts
+import { Order } from "../../types/type"; // Define a type for your orders
 
 const OrdersPage = () => {
-  const [orders, setOrders] = useState<Order[]>([]); // Use the imported Order type
+  const [orders, setOrders] = useState<Order[]>([]);
   const router = useRouter();
 
   // Fetch orders from Sanity
   const fetchOrders = async () => {
     try {
       const query = `*[_type == "order"] | order(orderDate desc) {
-        id,
+        _id,
         fullName,
         email,
         totalPrice,
         items[]->{name, price, quantity},
         orderDate
       }`;
-
+      
       const result = await client.fetch(query);
       setOrders(result);
     } catch (error) {
@@ -41,7 +41,7 @@ const OrdersPage = () => {
       ) : (
         <div className="space-y-4">
           {orders.map((order) => (
-            <div key={order.id} className="bg-white p-4 shadow rounded-lg">
+            <div key={order._id} className="bg-white p-4 shadow rounded-lg">
               <h2 className="font-bold">{order.fullName}</h2>
               <p>{order.email}</p>
               <p className="text-lg font-semibold">${order.totalPrice}</p>
@@ -50,7 +50,7 @@ const OrdersPage = () => {
               <div className="mt-4">
                 <h3 className="font-semibold">Items:</h3>
                 <ul>
-                  {order.items.map((item: OrderItem, index: number) => (
+                  {order.items.map((item, index) => (
                     <li key={index}>
                       {item.name} - ${item.price} x {item.quantity}
                     </li>
@@ -59,7 +59,7 @@ const OrdersPage = () => {
               </div>
 
               <button
-                onClick={() => router.push(`/admin/order/${order.id}`)}
+                onClick={() => router.push(`/admin/order/${order._id}`)}
                 className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
               >
                 View Details

@@ -1,56 +1,22 @@
-"use client";
+"use client"; // Ensure the component runs on the client side
 
 import React from "react";
 import { useWishlist } from "../context/WishlistContext";
 import { useCart } from "../context/CartContext";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import imageUrlBuilder from "@sanity/image-url";  // Import Sanity image URL builder
-import { client } from "../../sanity/lib/sanity"; // Import Sanity client
+import { urlFor } from '@/sanity/lib/sanity'; // If using Sanity, adjust based on your image handling
+import Link from "next/link";
 
-// Sanity image builder function
-const builder = imageUrlBuilder(client);
-const urlFor = (source: string) => builder.image(source).url();
-
-// ✅ Wishlist Item Interface
-export interface WishlistItem {
-  id: string;
-  name: string;
-  imagePath: string;
-  price: number;
-  description: string;
-  discountPercentage: number;
-  isFeaturedProduct: boolean;
-  stockLevel: number;
-  category: string;
- image?: string;
-
-    
-  
-}
-
-// ✅ Cart Item Interface
-interface CartItem extends WishlistItem {
-  quantity: number;
-}
 
 const WishlistPage = () => {
   const { wishlist, removeFromWishlist } = useWishlist();
   const { addToCart } = useCart();
-  const router = useRouter();
 
   const handleRemoveFromWishlist = (id: string) => {
-    removeFromWishlist(id);
+    removeFromWishlist(id); // Remove item from wishlist
   };
 
-  const handleAddToCart = (item: WishlistItem) => {
-    const cartItem: CartItem = {
-      ...item,
-      quantity: 1,
-      image: item.image, // Ensure `image` is used properly
-    };
-    addToCart(cartItem);
-    router.push("/cartpage");
+  const handleAddToCart = (item: any) => {
+    addToCart(item); // Add item to cart
   };
 
   return (
@@ -61,47 +27,53 @@ const WishlistPage = () => {
         <p className="text-center text-xl">Your wishlist is empty.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {wishlist.map((item) => (
-            <div
-              key={item.id}
-              className="border p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-            >
-              {/* ✅ Fix Image Rendering */}
-              <div className="relative h-64 mb-4">
-                {item.image && (
-                  <Image
-                    src={urlFor(item.image)}  // Convert image ID to full URL
-                    width={500}
-                    height={300}
-                    alt={item.name}
-                    className="object-cover w-full h-full rounded-md"
-                  />
-                )}
-              </div>
+          {wishlist.map((item) => {
+            console.log("Item Image URL: ", item.image); // Debugging the image URL
 
-              {/* ✅ Product Details */}
-              <div className="text-center">
-                <h3 className="font-semibold text-xl text-gray-800">{item.name}</h3>
-                <p className="text-gray-600 mt-2">${item.price.toFixed(2)}</p>
+            return (
+              <div
+                key={item.id}
+                className="border p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+              >
+                {/* Product Image */}
+                <div className="relative h-64 mb-4">
+                <img
+             src={item.image ? urlFor(item.image).url() : '/path/to/fallback-image.jpg'}
+            alt={item.name}
+                 className="object-cover w-full h-full rounded-md"
+                         />
+     </div>
 
-                {/* ✅ Action Buttons */}
-                <div className="mt-4 flex justify-center gap-4">
-                  <button
-                    onClick={() => handleAddToCart(item)}
-                    className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200"
-                  >
-                    Add to Cart
-                  </button>
-                  <button
-                    onClick={() => handleRemoveFromWishlist(item.id)}
-                    className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-200"
-                  >
-                    Remove
-                  </button>
+                {/* Product Details */}
+                <div className="text-center">
+                  <h3 className="font-semibold text-xl text-gray-800">{item.name}</h3>
+                  <p className="text-gray-600 mt-2">{item.price}</p>
+
+                  {/* Optional: If you have size/color options */}
+                  <div className="text-sm mt-2">
+                    {item.selectedSize && <p>Size: {item.selectedSize}</p>}
+                    {item.selectedColor && <p>Color: {item.selectedColor}</p>}
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="mt-4 flex justify-center gap-4">
+                    <button
+                      onClick={() => handleAddToCart(item)}
+                      className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200"
+                    >
+                        <Link href="/cartpage"> Add to Cart</Link>
+                    </button>
+                    <button
+                      onClick={() => handleRemoveFromWishlist(item.id)}
+                      className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-200"
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

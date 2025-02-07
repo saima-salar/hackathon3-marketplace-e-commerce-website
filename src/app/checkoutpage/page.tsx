@@ -1,14 +1,14 @@
-"use client";
+"use client"; // Ensure this is a client-side component
+
 import { useState } from "react";
-import { useCart } from "../context/CartContext"; // Get cart & total price from context
-import { useRouter } from "next/navigation"; // Correct import from next/navigation for app directory
-import { client } from "../../sanity/lib/sanity"; // Import Sanity client
+import { useCart } from "../context/CartContext";
+import { useRouter } from "next/navigation"; // Use next/navigation for newer Next.js routing
+import { client } from "@/sanity/lib/sanity"; // Import Sanity client
 
 const CheckoutPage = () => {
   const { cart, totalPrice, clearCart } = useCart(); // Get cart & total price from context
   const router = useRouter(); // useRouter hook for navigation
 
-  // Local state for the form data
   const [form, setForm] = useState({
     fullName: "",
     address: "",
@@ -17,23 +17,17 @@ const CheckoutPage = () => {
     email: "",
   });
 
-  // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Handle checkout process
   const handleCheckout = async () => {
-    // Check if all fields are filled out
     if (!form.fullName || !form.address || !form.city || !form.country || !form.email) {
       alert("⚠️ Please fill in all fields before proceeding.");
       return;
     }
 
     try {
-      // Log form data to check if it's correct
-      console.log("Form Data:", form);
-
       // Prepare order data for Sanity
       const orderData = {
         _type: "order",
@@ -43,37 +37,29 @@ const CheckoutPage = () => {
         city: form.city,
         country: form.country,
         items: cart.map((item) => ({
-          _type: "object",
+          _type: "object", 
           productId: item.id,
           name: item.name,
           quantity: item.quantity,
           price: item.price,
+          selectedSize: item.selectedSize,
+          selectedColor: item.selectedColor,
         })),
         totalPrice,
         orderDate: new Date().toISOString(),
       };
 
-      // Log the order data before sending to Sanity
-      console.log("Order Data to be sent:", orderData);
-
       // Save order to Sanity
-      const orderResponse = await client.create(orderData);
+      await client.create(orderData);
 
-      // Log the response from Sanity
-      console.log("Order response from Sanity:", orderResponse);
+      // Success handling
+      alert("✅ Order placed successfully!");
+      clearCart(); // Clears cart after successful order
+      router.push("/order-success"); // Redirect to the success page
 
-      if (orderResponse) {
-        console.log("Order successfully created:", orderResponse);
-        alert("✅ Order placed successfully!");
-        clearCart(); // Clears cart after successful order
-        console.log("Order placed successfully. Redirecting to /order-success");
-        router.push("/order-success"); // Redirect to the success page after successful order creation
-      } else {
-        throw new Error("Failed to create order, no response received.");
-      }
-    } catch (error: any) {
-      console.error("Checkout Error:", error.message || error);
-      alert(`❌ Failed to place order: ${error.message || error}`);
+    } catch (error) {
+      console.error("Checkout Error:", error);
+      alert("❌ Failed to place order. Please try again.");
     }
   };
 
@@ -141,8 +127,8 @@ const CheckoutPage = () => {
       </div>
 
       {/* Checkout Button */}
-      <button
-        onClick={handleCheckout}
+      <button 
+        onClick={handleCheckout} 
         className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700"
       >
         Place Order
@@ -152,3 +138,51 @@ const CheckoutPage = () => {
 };
 
 export default CheckoutPage;
+
+// "use client";
+
+// import { useCart } from "../context/CartContext";
+// import { useRouter } from "next/navigation";
+
+// const CheckoutPage = () => {
+//   const { cart, totalPrice, clearCart } = useCart();
+//   const router = useRouter();
+
+//   const handleCheckout = () => {
+//     if (cart.length > 0) {
+//       // Proceed with checkout logic (e.g., API calls, payment processing)
+//       alert("Checkout successful!");
+
+//       // Clear the cart after successful checkout
+//       clearCart(); // Clears all items in the cart
+
+//       // Redirect to the home page after clearing the cart
+//       router.push("/"); // Navigate to the home page ("/")
+//     } else {
+//       alert("Your cart is empty. Please add items to your cart.");
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-screen bg-gray-100 p-8">
+//       <h1 className="text-3xl font-bold mb-6">Checkout Page</h1>
+
+//       {cart.length === 0 ? (
+//         <p>Your cart is empty.</p>
+//       ) : (
+//         <div>
+//           <h2 className="text-xl font-bold">Total: ${totalPrice.toFixed(2)}</h2>
+
+//           <button
+//             onClick={handleCheckout}
+//             className="w-full bg-green-500 text-white py-3 rounded-lg mt-4 hover:bg-green-600"
+//           >
+//             Complete Checkout
+//           </button>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default CheckoutPage;

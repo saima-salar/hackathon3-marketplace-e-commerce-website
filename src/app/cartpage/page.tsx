@@ -1,4 +1,4 @@
-"use client";  // Add this line to mark the component as a Client Component
+"use client";
 
 import { useCart } from "../context/CartContext";
 import { useRouter } from "next/navigation";
@@ -11,7 +11,6 @@ const CartPage = () => {
     <div className="min-h-screen bg-gray-100 p-8">
       <h1 className="text-3xl font-bold mb-6">Shopping Cart</h1>
 
-      {/* Check if cart is empty */}
       {cart.length === 0 ? (
         <p className="text-gray-500">Your cart is empty.</p>
       ) : (
@@ -24,6 +23,13 @@ const CartPage = () => {
               <div>
                 <h2 className="font-bold">{item.name}</h2>
                 <p className="text-gray-600">{item.description}</p>
+                <p>
+                  Size: <span className="font-semibold">{item.selectedSize}</span> | Color:{" "}
+                  <span
+                    className="inline-block w-5 h-5 rounded-full border border-gray-300"
+                    style={{ backgroundColor: item.selectedColor }}
+                  ></span>
+                </p>
                 <p className="text-lg font-semibold mt-2">${item.price}</p>
               </div>
               <button
@@ -39,7 +45,7 @@ const CartPage = () => {
           ))}
 
           {/* Total Price Section */}
-          <h2 className="text-xl font-bold">Total: ${totalPrice.toFixed(2)}</h2>
+          <h2 className="text-xl font-bold">Total: ${totalPrice}</h2>
 
           {/* Proceed to Checkout Button */}
           <button
